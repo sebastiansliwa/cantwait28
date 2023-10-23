@@ -15,6 +15,7 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   String? _imageURL;
+  String? _director;
   String? _title;
   DateTime? _releaseDate;
 
@@ -45,11 +46,13 @@ class _AddPageState extends State<AddPage> {
                   IconButton(
                     onPressed: _imageURL == null ||
                             _title == null ||
-                            _releaseDate == null
+                            _releaseDate == null ||
+                            _director == null
                         ? null
                         : () {
                             context.read<AddCubit>().add(
                                   _title!,
+                                  _director!,
                                   _imageURL!,
                                   _releaseDate!,
                                 );
@@ -62,6 +65,11 @@ class _AddPageState extends State<AddPage> {
                 onTitleChanged: (newValue) {
                   setState(() {
                     _title = newValue;
+                  });
+                },
+                onDirectorChanged: (newValue) {
+                  setState(() {
+                    _director = newValue;
                   });
                 },
                 onImageUrlChanged: (newValue) {
@@ -90,12 +98,14 @@ class _AddPageBody extends StatelessWidget {
   const _AddPageBody({
     Key? key,
     required this.onTitleChanged,
+    required this.onDirectorChanged,
     required this.onImageUrlChanged,
     required this.onDateChanged,
     this.selectedDateFormatted,
   }) : super(key: key);
 
   final Function(String) onTitleChanged;
+  final Function(String) onDirectorChanged;
   final Function(String) onImageUrlChanged;
   final Function(DateTime?) onDateChanged;
   final String? selectedDateFormatted;
@@ -114,6 +124,15 @@ class _AddPageBody extends StatelessWidget {
             border: OutlineInputBorder(),
             hintText: 'Matrix 5',
             label: Text('Title'),
+          ),
+        ),
+        const SizedBox(height: 20),
+        TextField(
+          onChanged: onDirectorChanged,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Tarantino',
+            label: Text('Director'),
           ),
         ),
         const SizedBox(height: 20),

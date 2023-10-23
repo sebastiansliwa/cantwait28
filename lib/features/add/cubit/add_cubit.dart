@@ -12,11 +12,13 @@ class AddCubit extends Cubit<AddState> {
 
   Future<void> add(
     String title,
+    String director,
     String imageURL,
     DateTime releaseDate,
+    
   ) async {
     try {
-      await _itemsRepository.add(title, imageURL, releaseDate);
+      await _itemsRepository.add(title, director, imageURL, releaseDate,);
 
       emit(const AddState(saved: true));
     } catch (error) {

@@ -17,9 +17,14 @@ class ItemsRepository {
         .map(((querySnapshot) {
       return querySnapshot.docs.map(
         (doc) {
+          var director = '';
+          if (doc.data().containsKey('director')) {
+            director = doc['director'];
+          }
           return ItemModel(
             id: doc.id,
             title: doc['title'],
+            director: director, //doc['director'] as String? ?? '', - not working
             imageUrl: doc['image_url'],
             relaseDate: (doc['release_date'] as Timestamp).toDate(),
           );
@@ -55,6 +60,7 @@ class ItemsRepository {
     return ItemModel(
       id: doc.id,
       title: doc['title'],
+      director: doc['director'],
       imageUrl: doc['image_url'],
       relaseDate: (doc['release_date'] as Timestamp).toDate(),
     );
@@ -62,6 +68,7 @@ class ItemsRepository {
 
   Future<void> add(
     String title,
+    String director,
     String imageURL,
     DateTime releaseDate,
   ) async {
@@ -78,6 +85,7 @@ class ItemsRepository {
         'title': title,
         'image_url': imageURL,
         'release_date': releaseDate,
+        'director': director,
       },
     );
   }
